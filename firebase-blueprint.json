@@ -1,0 +1,87 @@
+{
+  "entities": {
+    "Product": {
+      "title": "Product",
+      "description": "A product for sale in the store.",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "brand": { "type": "string" },
+        "price": { "type": "number" },
+        "categoryId": { "type": "string" },
+        "stock": { "type": "number" },
+        "imageUrl": { "type": "string" },
+        "description": { "type": "string" }
+      },
+      "required": ["name", "brand", "price", "categoryId", "stock", "imageUrl", "description"]
+    },
+    "Category": {
+      "title": "Category",
+      "description": "A product category.",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "imageUrl": { "type": "string" }
+      },
+      "required": ["name", "imageUrl"]
+    },
+    "Order": {
+      "title": "Order",
+      "description": "A customer's order.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "items": { "type": "array" },
+        "shipping": { "type": "object" },
+        "paymentMethod": { "type": "string" },
+        "total": { "type": "number" },
+        "status": { "type": "string" },
+        "createdAt": { "type": "number" }
+      },
+      "required": ["userId", "items", "shipping", "paymentMethod", "total", "status", "createdAt"]
+    },
+    "User": {
+      "title": "User",
+      "description": "A registered user.",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "email": { "type": "string" },
+        "disabled": { "type": "boolean" },
+        "createdAt": { "type": "number" }
+      },
+      "required": ["name", "email", "disabled", "createdAt"]
+    },
+    "AdminConfig": {
+      "title": "Admin",
+      "description": "Admin privileges marker document.",
+      "type": "object",
+      "properties": {
+        "email": { "type": "string" }
+      },
+      "required": ["email"]
+    }
+  },
+  "firestore": {
+    "/products/{productId}": {
+      "schema": { "$ref": "Product" },
+      "description": "Stores product definitions. Public read, admin write."
+    },
+    "/categories/{categoryId}": {
+      "schema": { "$ref": "Category" },
+      "description": "Stores category definitions. Public read, admin write."
+    },
+    "/orders/{orderId}": {
+      "schema": { "$ref": "Order" },
+      "description": "Stores orders. Read by owner or admin. Create by owner. Update by admin."
+    },
+    "/users/{userId}": {
+      "schema": { "$ref": "User" },
+      "description": "Stores user profiles. Read by owner or admin. Update by admin."
+    },
+    "/admins/{adminId}": {
+      "schema": { "$ref": "AdminConfig" },
+      "description": "Stores admin UID markers. Used for role checks. Read by owner, no write."
+    }
+  }
+}
